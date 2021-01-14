@@ -1,24 +1,25 @@
-import { Board } from './board.js'
+import { Columns } from './columns.js'
 import { Game } from './game.js'
 
 
 window.addEventListener('DOMContentLoaded', event => {
   let game;
-  console.log(game)
   const playerForm = document.getElementById('form-holder');
   const p1Input = document.getElementById('player-1-name');
   const p2Input = document.getElementById('player-2-name');
   const newGameBtn = document.getElementById('new-game');
   const gameName = document.getElementById('game-name');
+  const clickTargets = document.getElementById('click-targets');
 
   function updateUI() {
     if (game === undefined) {
       document.getElementById('board-holder').classList.add('is-invisible');
-      // boardHolder.setAttribute('class', 'is-invisible');
     } else {
-      // boardHolder.classList.remove('is-invisible');
       document.getElementById('board-holder').classList.remove('is-invisible');
       gameName.innerHTML = game.getName();
+    }
+    if(game.currentPlayer === 1){
+
     }
   }
 
@@ -29,16 +30,31 @@ window.addEventListener('DOMContentLoaded', event => {
   })
 
   newGameBtn.addEventListener ('click', e => {
-    console.log(p1Input.value)
-    console.log(p2Input.value)
     game = new Game(p1Input.value, p2Input.value);
-    console.log(game)
     updateUI()
     p1Input.value = '';
     p2Input.value = '';
     newGameBtn.disabled = true;
   })
 
+  clickTargets.addEventListener('mouseover', event => {
+    if(event.target.classList.contains('click-target')){
+        if(game.currentPlayer === 1){
+          event.target.style.backgroundColor = 'black';
+        } else {
+          event.target.style.backgroundColor = 'red';
+        }
+    }
+  });
 
+  clickTargets.addEventListener('mouseout', event => {
+
+     event.target.style.backgroundColor = '';
+  });
+
+  clickTargets.addEventListener('click', event => {
+      game.playInColumn();
+      updateUI();
+  })
 
 });
