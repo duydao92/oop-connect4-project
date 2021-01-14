@@ -2,7 +2,7 @@
 
 
 export class Columns {
-  consturctor(){
+  constructor(){
     this.slots = Array(6).fill(null)
 
   }

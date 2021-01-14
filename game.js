@@ -9,19 +9,25 @@ export class Game {
     this.currentPlayer = 1;
     this.columns = Array(7).fill(new Columns)
   }
-  getTokenAt (row, col) { //return null if the square is empty, 1 if black is there, 2 if red.
-
+  getTokenAt (row, col) {
+    // come back here later
   }
 
   getName(){ // return a string of player names
-      return `${this.player1} VS. ${this.player2}`
+      return `${this.player1} vs. ${this.player2}`
   }
 
-  playInColumn(col){
+  playInColumn(colIndex){
+    this.columns[colIndex].add(this.currentPlayer)
+
     if(this.currentPlayer === 1){
       this.currentPlayer = 2;
     } else {
        this.currentPlayer = 1;
     }
   }
+
+
+
+
 }

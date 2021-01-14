@@ -11,6 +11,8 @@ window.addEventListener('DOMContentLoaded', event => {
   const gameName = document.getElementById('game-name');
   const clickTargets = document.getElementById('click-targets');
 
+
+
   function updateUI() {
     if (game === undefined) {
       document.getElementById('board-holder').classList.add('is-invisible');
@@ -19,10 +21,12 @@ window.addEventListener('DOMContentLoaded', event => {
       gameName.innerHTML = game.getName();
     }
     if(game.currentPlayer === 1){
-
+      // come back to this
     }
   }
 
+
+// ----------- PLAYER INPUTS PRIOR TO GAME START ------------ //
   playerForm.addEventListener('keyup', event => {
       if((p1Input.value !== "") && (p2Input.value !== "")){
         newGameBtn.disabled = false;
@@ -37,6 +41,7 @@ window.addEventListener('DOMContentLoaded', event => {
     newGameBtn.disabled = true;
   })
 
+// ------ MOUSE EVENTS FOR PLAYER COLUMN SELECTIONS (UI) ------ //
   clickTargets.addEventListener('mouseover', event => {
     if(event.target.classList.contains('click-target')){
         if(game.currentPlayer === 1){
@@ -48,13 +53,16 @@ window.addEventListener('DOMContentLoaded', event => {
   });
 
   clickTargets.addEventListener('mouseout', event => {
-
      event.target.style.backgroundColor = '';
   });
+// ------------------------------------------------------------- //
 
+// ---------------- PLAYER COLUMN CHOICE -----------------------//
   clickTargets.addEventListener('click', event => {
-      game.playInColumn();
-      updateUI();
+    let columnNum = Number(event.target.id.split('-')[1]);
+    console.log(columnNum);
+    game.playInColumn(columnNum);
+    updateUI();
   })
 
 });
