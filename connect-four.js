@@ -1,4 +1,4 @@
-import { Columns } from './columns.js'
+import { Column } from './column.js'
 import { Game } from './game.js'
 
 

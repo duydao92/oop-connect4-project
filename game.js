@@ -1,13 +1,11 @@
-// SOLELY RESPONSIBLE FOR MANAGING THE STATE OF GAME
-
-import { Columns } from "./columns";
+import { Column } from "./column.js";
 
 export class Game {
   constructor (player1, player2){
     this.player1 = player1;
     this.player2 = player2;
     this.currentPlayer = 1;
-    this.columns = Array(7).fill(new Columns)
+    this.columns = [new Column(), new Column(), new Column(), new Column(), new Column(), new Column(), new Column()]
   }
   getTokenAt (row, col) {
     // come back here later
@@ -27,7 +25,7 @@ export class Game {
     }
   }
 
-
-
-
 }
+
+
+// SOLELY RESPONSIBLE FOR MANAGING THE STATE OF GAME
