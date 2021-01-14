@@ -12,7 +12,6 @@ window.addEventListener('DOMContentLoaded', event => {
   const clickTargets = document.getElementById('click-targets');
 
 
-
   function updateUI() {
     if (game === undefined) {
       document.getElementById('board-holder').classList.add('is-invisible');
@@ -59,10 +58,12 @@ window.addEventListener('DOMContentLoaded', event => {
 
 // ---------------- PLAYER COLUMN CHOICE -----------------------//
   clickTargets.addEventListener('click', event => {
-    let columnNum = Number(event.target.id.split('-')[1]);
-    console.log(columnNum);
-    game.playInColumn(columnNum);
-    updateUI();
-  })
+    if(event.target.classList.contains('click-target')){
+
+        let columnNum = Number(event.target.id.split('-')[1]);
+        game.playInColumn(columnNum);
+        updateUI();
+      }
+  });
 
 });

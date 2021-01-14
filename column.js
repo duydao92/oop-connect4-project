@@ -5,14 +5,18 @@ export class Column {
   }
 
   add(playerNum) {//store player number in bottom most entry available in column
-    let slot;
-    for (let i = this.slots.length; i >= 0; i--) {
+    let slot = 0;
+    for (let i = this.slots.length-1; i >= 0; i--) {
+      console.log(i);
+      console.log(this.slots[i]);
       if (this.slots[i] === null) {
-        slot === i;
+        slot = i;
+        break;
       }
     }
 
-    this.slots[slot - 1] = playerNum
+    this.slots[slot] = playerNum
+    console.log(this.slots);
   }
 
   getTokenAt(row) {//return null if no token, 1 if black, 2 if red
