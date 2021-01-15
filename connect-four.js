@@ -11,6 +11,16 @@ window.addEventListener('DOMContentLoaded', event => {
   const gameName = document.getElementById('game-name');
   const clickTargets = document.getElementById('click-targets');
 
+  if(localStorage.getItem('gameState') !== ""){
+    game = new Game(p1Input.value, p2Input.value);
+    updateUI()
+    p1Input.value = '';
+    p2Input.value = '';
+    newGameBtn.disabled = true;
+    if(game.winnerNumber !== 0){
+      newGameBtn.disabled = false;
+    }
+  }
 
   function updateUI() {
     if (game === undefined) {
@@ -19,9 +29,7 @@ window.addEventListener('DOMContentLoaded', event => {
       document.getElementById('board-holder').classList.remove('is-invisible');
       gameName.innerHTML = game.getName();
     }
-    if(game.currentPlayer === 1){
-      // come back to this
-    }
+
 
     for (let i = 0; i <= 5; i++) {
       for (let j = 0; j <= 6; j++) {
@@ -49,6 +57,7 @@ window.addEventListener('DOMContentLoaded', event => {
   })
 
   newGameBtn.addEventListener ('click', e => {
+    localStorage.clear()
     game = new Game(p1Input.value, p2Input.value);
     updateUI()
     p1Input.value = '';

@@ -10,10 +10,8 @@ export class Game {
     this.currentPlayer = 1;
     this.columns = [new Column(), new Column(), new Column(), new Column(), new Column(), new Column(), new Column()]
     this.winnerNumber = 0
-    if (localStorage.getItem('gameState')) {
-      this.arraysToBoard()
-      
-    }
+    this.arraysToBoard();
+    this.restoreGameState()
   }
   getTokenAt (row, col) {
      return this.columns[col].getTokenAt(row)
@@ -33,6 +31,8 @@ export class Game {
   }
 
   playInColumn(colIndex){
+    if(this.winnerNumber !== 0) return
+
     this.columns[colIndex].add(this.currentPlayer)
 
     if(this.currentPlayer === 1){
@@ -46,6 +46,7 @@ export class Game {
     this.checkForDiagonalWin()
     this.boardToArray()
     this.getName();
+    this.saveGameState();
   }
 
   checkForColumnWin () {
@@ -56,7 +57,7 @@ export class Game {
       let inspecting = new ColumnWinInspector(column)
       if (inspecting.inspect() !== undefined) {
         this.winnerNumber = inspecting.inspect()
-        alert(this.winnerNumber, 'wins')
+
       }
     }
   }
@@ -75,7 +76,7 @@ export class Game {
       let inspecting = new RowWinInspector(columns)
       if (inspecting.inspect() !== undefined) {
         this.winnerNumber = inspecting.inspect()
-        alert(this.winnerNumber, 'wins')
+
       }
     }
 
@@ -95,7 +96,7 @@ export class Game {
       let inspecting = new DiagonalWinInspector(columns)
       if (inspecting.inspect() !== undefined) {
         this.winnerNumber = inspecting.inspect()
-        alert(this.winnerNumber, 'wins')
+
       }
     }
 
@@ -114,10 +115,30 @@ export class Game {
   }
 
   arraysToBoard() {
-    let arr2D = JSON.parse(localStorage.getItem('gameState'))
-    arr2D.forEach((col, i) => {
-      this.columns[i].restore(col)
-    })
+    if(localStorage.getItem('gameState')){
+      let arr2D = JSON.parse(localStorage.getItem('gameState'))
+        arr2D.forEach((col, i) => {
+          this.columns[i].restore(col)
+        })
+    }
+  }
+  saveGameState(){
+    let state = {
+      player1:this.player1,
+      player2: this.player2,
+      currentPlayer: this.currentPlayer,
+      winnerNum: this.winnerNumber,
+    }
+    localStorage.setItem('state', JSON.stringify(state));
+  }
+  restoreGameState(){
+    if(localStorage.getItem('state')){
+    let {player1, player2, currentPlayer, winnerNum} = JSON.parse(localStorage.getItem('state'));
+    this.player1 = player1;
+    this.player2 = player2;
+    this.currentPlayer = currentPlayer;
+    this.winnerNumber = winnerNum;
+    }
   }
 }
 
