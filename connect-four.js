@@ -1,8 +1,9 @@
-import { Column } from './column.js'
-import { Game } from './game.js'
+import {
+  Game
+} from './game.js'
 
 
-window.addEventListener('DOMContentLoaded', event => {
+window.addEventListener('DOMContentLoaded', () => {
   let game;
   const playerForm = document.getElementById('form-holder');
   const p1Input = document.getElementById('player-1-name');
@@ -11,27 +12,28 @@ window.addEventListener('DOMContentLoaded', event => {
   const gameName = document.getElementById('game-name');
   const clickTargets = document.getElementById('click-targets');
 
-  if(localStorage.getItem('gameState') !== ""){
-    game = new Game(p1Input.value, p2Input.value);
-    updateUI()
+  if (localStorage.getItem('gameState') !== "") { //Check local storage to see if game state is saved.
+    game = new Game(p1Input.value, p2Input.value);//Init new game obj.
+    game.arraysToBoard();                         //repopulate tokens on board
+    game.restoreGameState()                       // repopulate players and and turns
+    updateUI();                                   //Update display based on game obj.
     p1Input.value = '';
     p2Input.value = '';
     newGameBtn.disabled = true;
-    if(game.winnerNumber !== 0){
+    if (game.winnerNumber !== 0) {
       newGameBtn.disabled = false;
     }
   }
 
   function updateUI() {
-    if (game === undefined) {
+    if (game === undefined) { //Make board visible.
       document.getElementById('board-holder').classList.add('is-invisible');
     } else {
       document.getElementById('board-holder').classList.remove('is-invisible');
       gameName.innerHTML = game.getName();
     }
 
-
-    for (let i = 0; i <= 5; i++) {
+    for (let i = 0; i <= 5; i++) { //Populate tokens.
       for (let j = 0; j <= 6; j++) {
         let tokenSquare = document.getElementById(`square-${i}-${j}`);
         let value = game.getTokenAt(i, j)
@@ -41,60 +43,53 @@ window.addEventListener('DOMContentLoaded', event => {
           token.classList.add('token', 'black')
         } else if (value === 2) {
           token.classList.add('token', 'red')
-        } else {
-        }
+        } else {}
         tokenSquare.appendChild(token)
       }
     }
   }
 
-
-// ----------- PLAYER INPUTS PRIOR TO GAME START ------------ //
-  playerForm.addEventListener('keyup', event => {
-      if((p1Input.value !== "") && (p2Input.value !== "")){
-        newGameBtn.disabled = false;
-      }
+  // ----------- PLAYER INPUTS PRIOR TO GAME START ------------ //
+  playerForm.addEventListener('keyup', () => {
+    if (p1Input.value && p2Input.value) {
+      newGameBtn.disabled = false;
+    }
   })
 
-  newGameBtn.addEventListener ('click', e => {
-    localStorage.clear()
-    game = new Game(p1Input.value, p2Input.value);
+  newGameBtn.addEventListener('click', () => {
+    localStorage.clear() //Reset board memory.
+    game = new Game(p1Input.value, p2Input.value); //Init new game obj.
     updateUI()
     p1Input.value = '';
     p2Input.value = '';
     newGameBtn.disabled = true;
   })
 
-// ------ MOUSE EVENTS FOR PLAYER COLUMN SELECTIONS (UI) ------ //
+  // ------ MOUSE EVENTS FOR PLAYER COLUMN SELECTIONS (UI) ------ //
   clickTargets.addEventListener('mouseover', event => {
-    if(event.target.classList.contains('click-target')){
-        if(game.currentPlayer === 1){
-          event.target.style.backgroundColor = 'black';
-        } else {
-          event.target.style.backgroundColor = 'red';
-        }
+    if (event.target.classList.contains('click-target')) {
+      if (game.currentPlayer === 1) {
+        event.target.style.backgroundColor = 'black';
+      } else {
+        event.target.style.backgroundColor = 'red';
+      }
     }
   });
 
   clickTargets.addEventListener('mouseout', event => {
-     event.target.style.backgroundColor = '';
+    event.target.style.backgroundColor = '';
   });
-// ------------------------------------------------------------- //
+  // ------------------------------------------------------------- //
 
-// ---------------- PLAYER COLUMN CHOICE -----------------------//
+  // ---------------- PLAYER COLUMN CHOICE -----------------------//
   clickTargets.addEventListener('click', event => {
-    console.log(game.columns);
-    if(event.target.classList.contains('click-target')){ // && isValidMove()
+    if (event.target.classList.contains('click-target')) { // && isValidMove()
       let columnNum = Number(event.target.id.split('-')[1]);
 
-      if(!(game.columns[columnNum].isFull()))
-        {
+      if (!game.columns[columnNum].isFull()) {
         game.playInColumn(columnNum);
         updateUI();
-      }else {
-          alert('Invalid move! Try another column...');
-        }
+      }
     }
   });
-
 });

@@ -1,12 +1,9 @@
-import { Game } from "./game.js";
-import { Column } from "./column.js";
-
 export class RowWinInspector {
-  constructor(columns){  // [col1, col2, col3, col4] === columns
+  constructor(columns) { // [col1, col2, col3, col4] === columns
     this.columns = columns;
   }
-  inspect(){
-    for (let i = 0; i < 6; i++){
+  inspect() {
+    for (let i = 0; i < 6; i++) {
       let first = this.columns[0].getTokenAt(i);
       let second = this.columns[1].getTokenAt(i);
       let third = this.columns[2].getTokenAt(i);
