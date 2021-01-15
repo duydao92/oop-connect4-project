@@ -78,7 +78,7 @@ window.addEventListener('DOMContentLoaded', event => {
     if(event.target.classList.contains('click-target')){ // && isValidMove()
       let columnNum = Number(event.target.id.split('-')[1]);
 
-      if(game.columns[columnNum].isValidMove())
+      if(!(game.columns[columnNum].isFull()))
         {
         game.playInColumn(columnNum);
         updateUI();
