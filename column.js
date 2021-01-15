@@ -3,7 +3,7 @@ export class Column {
     this.slots = Array(6).fill(null)
 
   }
-  
+
   isFull(){
     return this.slots[0] !== null;
   }
@@ -25,6 +25,10 @@ export class Column {
 
   getTokenAt(row) {//return null if no token, 1 if black, 2 if red
     return this.slots[row]
+  }
+
+  restore (valueArr) {
+    this.slots = valueArr
   }
 
 }

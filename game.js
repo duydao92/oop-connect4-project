@@ -10,6 +10,10 @@ export class Game {
     this.currentPlayer = 1;
     this.columns = [new Column(), new Column(), new Column(), new Column(), new Column(), new Column(), new Column()]
     this.winnerNumber = 0
+    if (localStorage.getItem('gameState')) {
+      this.arraysToBoard()
+      
+    }
   }
   getTokenAt (row, col) {
      return this.columns[col].getTokenAt(row)
@@ -40,6 +44,7 @@ export class Game {
     this.checkForColumnWin();
     this.checkForRowWin();
     this.checkForDiagonalWin()
+    this.boardToArray()
     this.getName();
   }
 
@@ -96,15 +101,26 @@ export class Game {
 
   }
 
-
-
   checkForTie() {
     let allFull = this.columns.every(column =>column.isFull());
     if (allFull) {
       this.winnerNumber = 3
     }
   }
+
+  boardToArray() {
+    let arr2D = JSON.stringify(this.columns.map(col => col.slots))
+    localStorage.setItem('gameState' , arr2D)
+  }
+
+  arraysToBoard() {
+    let arr2D = JSON.parse(localStorage.getItem('gameState'))
+    arr2D.forEach((col, i) => {
+      this.columns[i].restore(col)
+    })
+  }
 }
+
 
 
 // SOLELY RESPONSIBLE FOR MANAGING THE STATE OF GAME
