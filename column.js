@@ -3,6 +3,9 @@ export class Column {
     this.slots = Array(6).fill(null)
 
   }
+  isValidMove(){
+    return this.slots[0] === null;
+  }
 
   add(playerNum) {//store player number in bottom most entry available in column
     let slot = 0;

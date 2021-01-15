@@ -74,12 +74,18 @@ window.addEventListener('DOMContentLoaded', event => {
 
 // ---------------- PLAYER COLUMN CHOICE -----------------------//
   clickTargets.addEventListener('click', event => {
-    if(event.target.classList.contains('click-target')){
+    console.log(game.columns);
+    if(event.target.classList.contains('click-target')){ // && isValidMove()
+      let columnNum = Number(event.target.id.split('-')[1]);
 
-        let columnNum = Number(event.target.id.split('-')[1]);
+      if(game.columns[columnNum].isValidMove())
+        {
         game.playInColumn(columnNum);
         updateUI();
-      }
+      }else {
+          alert('Invalid move! Try another column...');
+        }
+    }
   });
 
 });
