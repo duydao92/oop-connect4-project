@@ -22,6 +22,22 @@ window.addEventListener('DOMContentLoaded', event => {
     if(game.currentPlayer === 1){
       // come back to this
     }
+
+    for (let i = 0; i <= 5; i++) {
+      for (let j = 0; j <= 6; j++) {
+        let tokenSquare = document.getElementById(`square-${i}-${j}`);
+        let value = game.getTokenAt(i, j)
+        tokenSquare.innerHTML = '';
+        let token = document.createElement('div');
+        if (value === 1) {
+          token.classList.add('token', 'black')
+        } else if (value === 2) {
+          token.classList.add('token', 'red')
+        } else {
+        }
+        tokenSquare.appendChild(token)
+      }
+    }
   }
 
 
