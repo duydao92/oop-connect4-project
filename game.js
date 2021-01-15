@@ -8,7 +8,7 @@ export class Game {
     this.columns = [new Column(), new Column(), new Column(), new Column(), new Column(), new Column(), new Column()]
   }
   getTokenAt (row, col) {
-    // come back here later
+     return this.columns[col].getTokenAt(row)
   }
 
   getName(){ // return a string of player names
