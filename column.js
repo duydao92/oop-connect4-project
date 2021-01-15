@@ -3,6 +3,7 @@ export class Column {
     this.slots = Array(6).fill(null)
 
   }
+  
   isFull(){
     return this.slots[0] !== null;
   }
